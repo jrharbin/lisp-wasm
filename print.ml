@@ -7,9 +7,9 @@ let print_symbol sym =
 let print_number n =
   match n with
   | Int(i) -> Printf.sprintf "%u" i
-  | Float(f) -> Printf.sprintf "%.6f" f
+  | Float(f) -> Printf.sprintf "%.7f" f
 
-let rec print_atom ?(str=stdout) a =
+let rec print_atom a =
   match a with
     Symbol(s) -> print_symbol s
   | Number(n) -> print_number n
@@ -25,6 +25,6 @@ and print_sexp s =
   | Backquote(s) -> "`" ^ print_sexp s
   | Unquote(s) -> "," ^ print_sexp s
   | Lambda(b, sexp) -> "lambda"
-  | List(sl) -> "(" ^ (List.fold_left (fun sofar s -> sofar ^ (print_sexp s)) "" sl) ^ ")"
+  | List(sl) -> "(" ^ (List.fold_left (fun sofar s -> sofar ^ (print_sexp s) ^ " ") "" sl) ^ ")"
 
 let print = print_sexp

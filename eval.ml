@@ -58,11 +58,17 @@ and eval (e : sexp) (senv:env) (denv : env) =
      end
   | _ -> e
 
-let internal_plus2 alist =
+let internal_arith2 fname f alist =
   match alist with
-  | [Atom(Number(Int(i1))); Atom(Number(Int(i2)))] -> Number(Int(i1+i2))
-  | _ -> raise (TypeError "internal_plus2")
-    
-let setup_global_env () =
-  [Named("+"), CamlFn("internal_plus2", internal_plus2)]
+  | [Atom(Number(Int(i1))); Atom(Number(Int(i2)))] -> Number(Int(f i1 i2))
+  | _ -> raise (TypeError (Printf.sprintf "%s" fname))
+
+let make_internal_arith2 fname f =
+  CamlFn(fname, (internal_arith2 fname f))
+	       
+let initial_global_env () =
+  [ Named("+"), (make_internal_arith2 "internal_plus2"  ( + ));
+    Named("-"), (make_internal_arith2 "internal_minus2" ( - ));
+    Named("*"), (make_internal_arith2 "internal_mult2" ( * ));
+    Named("/"), (make_internal_arith2 "internal_div2" ( / )) ]
 
