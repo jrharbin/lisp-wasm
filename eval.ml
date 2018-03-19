@@ -10,7 +10,7 @@ module Env =
 	match a with
 	  Closure(_) -> a
 	| CamlFn(_) -> a
-	| _ -> raise (NotAFunction name)  
+	| _ -> raise (NotAFunction name)
       with Not_found -> raise (UndefinedFunction name)
 			      
     let rec make_bindings (env : env) names cdr =
