@@ -6,7 +6,7 @@ let print_symbol sym =
 
 let print_number n =
   match n with
-  | Int(i) -> Printf.sprintf "%u" i
+  | Int(i) -> Printf.sprintf "%i" i
   | Float(f) -> Printf.sprintf "%.7f" f
 
 let rec print_atom a =

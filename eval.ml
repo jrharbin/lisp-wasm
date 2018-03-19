@@ -69,6 +69,6 @@ let make_internal_arith2 fname f =
 let initial_global_env () =
   [ Named("+"), (make_internal_arith2 "internal_plus2"  ( + ));
     Named("-"), (make_internal_arith2 "internal_minus2" ( - ));
-    Named("*"), (make_internal_arith2 "internal_mult2" ( * ));
-    Named("/"), (make_internal_arith2 "internal_div2" ( / )) ]
+    Named("*"), (make_internal_arith2 "internal_mult2"  ( * ));
+    Named("/"), (make_internal_arith2 "internal_div2"   ( / )) ]
 
