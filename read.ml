@@ -1,5 +1,5 @@
 type char_type =
-    INVALID
+  | INVALID
   | S_ESCAPE
   | M_ESCAPE
   | WHITESPACE

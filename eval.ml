@@ -19,12 +19,6 @@ module Env =
       | ((n::ns), ((Atom a)::ad)) -> make_bindings ((n,a)::env) ns ad
       | _ -> raise TooManyArguments  
   end
-
-let names_specform s =
-  match s with
-    Named("if") -> true
-  | Named("funcall") -> true
-  | _ -> false
     
 let rec eval_specform e senv denv = e
 
@@ -49,7 +43,7 @@ and eval (e : sexp) (senv:env) (denv : env) =
      and cdrs = List.tl el
      in 
      begin match car with
-     | Atom(Symbol(s)) -> if names_specform s then
+     | Atom(Symbol(s)) -> if Specforms.is_specform s then
                                    eval_specform e senv denv
                                  else
                                    let cdrs = (List.map (fun c -> eval c senv denv) cdrs)
