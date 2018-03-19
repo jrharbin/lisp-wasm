@@ -18,6 +18,13 @@ let rec print_atom ?(str=stdout) a =
   | CamlFn(desc,f) -> Printf.sprintf "#!INTERNAL-FUNC %s" desc
   | Nil -> Printf.sprintf "Nil"
 
-and print_sexp s = "" 
+and print_sexp s =
+  match s with
+    Atom(a) -> print_atom a
+  | Quote(s) -> "'" ^ print_sexp s
+  | Backquote(s) -> "`" ^ print_sexp s
+  | Unquote(s) -> "," ^ print_sexp s
+  | Lambda(b, sexp) -> "lambda"
+  | List(sl) -> "(" ^ (List.fold_left (fun sofar s -> sofar ^ (print_sexp s)) "" sl) ^ ")"
 
 let print = print_sexp
