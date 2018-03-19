@@ -1,4 +1,4 @@
-SOURCES=types.ml eval.ml main.ml
+SOURCES=types.ml print.ml eval.ml main.ml
 RESULT=lispwasm
 
 -include OCamlMakefile
