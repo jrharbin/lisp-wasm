@@ -1,19 +1,8 @@
-JSFLAGS = -use-menhir -menhir "menhir --explain" -use-ocamlfind -plugin-tag "package(js_of_ocaml.ocamlbuild)"
-FLAGS = $(JSFLAGS) -libs unix
-OCAMLBUILD ?= ocamlbuild
+SOURCES=src/types.ml src/print.ml src/specforms.ml src/eval.ml src/main.ml
+PACKS=js_of_ocaml js_of_ocaml-ppx
+RESULT=lispwasm
 
-.PHONY: serve clean repl.js lambda.native
+-include OCamlMakefile
 
-default: lispwasm.js
-
-_build/repl.js:
-	$(OCAMLBUILD) $(JSFLAGS) src/lispwasm.js
-
-lambda.native:
-	$(OCAMLBUILD) $(FLAGS) src/lambda.native
-
-repl.js: _build/repl.js
-	ln -fs _build/src/repl.js .
-
-clean:
-	$(OCAMLBUILD) -clean
+js: byte-code
+	js_of_ocaml lispwasm
