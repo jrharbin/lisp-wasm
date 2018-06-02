@@ -1,0 +1,3 @@
+Reader
+Proper lexical and dynamic scope testing
+Remove the NotAFunction exceptions and rewrite bindings
