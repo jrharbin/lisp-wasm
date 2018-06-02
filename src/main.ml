@@ -22,7 +22,6 @@ let js_formatter echo =
       (Js.Unsafe.fun_call echo [| Js.Unsafe.inject (Js.string !buffer) |] : unit) ;
       buffer := "")
 
-      
 (* Export the interface to Javascript. *)
 let _ =
   Js.export "repl"
@@ -45,8 +44,20 @@ let _ =
                method usefile echo env cmds =
                  let ppf = js_formatter echo in
                  let cmds = Js.to_string cmds in
-                 let cmds = p (Lexing.from_string cmds) in
-                 List.fold_left (L.exec ~ppf) env cmds
+                 Format.fprintf ppf "received from editor %s @." cmds;
+                 env
+
+               method compile echo env cmds =
+                 let ppf = js_formatter echo in
+                 let cmds = Js.to_string cmds in
+                 Format.fprintf ppf "compile received: %s @." cmds;
+                 env
+
+               method interpret echo env cmds =
+                 let ppf = js_formatter echo in
+                 let cmds = Js.to_string cmds in
+                 Format.fprintf ppf "toplevel received: %s @." cmds;
+                 env
              end)
   
   

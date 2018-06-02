@@ -4,5 +4,5 @@ RESULT=lispwasm
 
 -include OCamlMakefile
 
-js: byte-code
+js: bc
 	js_of_ocaml lispwasm
