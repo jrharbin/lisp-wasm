@@ -26,4 +26,4 @@ exception TooManyArguments
 exception UndefinedFunction of sym
 exception TypeError of string
 exception NotAFunction of sym
-exception NotAFunction2 of atom   
+exception NotAFunction2 of atom

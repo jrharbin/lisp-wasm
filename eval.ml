@@ -44,10 +44,10 @@ and eval (e : sexp) (senv:env) (denv : env) =
      in 
      begin match car with
      | Atom(Symbol(s)) -> if Specforms.is_specform s then
-                                   eval_specform e senv denv
-                                 else
-                                   let cdrs = (List.map (fun c -> eval c senv denv) cdrs)
-                                               in eval_fcall s cdrs senv denv
+                            eval_specform e senv denv
+                          else
+                            let cdrs = (List.map (fun c -> eval c senv denv) cdrs)
+                            in eval_fcall s cdrs senv denv
      | _ -> e
      end
   | _ -> e
@@ -65,4 +65,3 @@ let initial_global_env () =
     Named("-"), (make_internal_arith2 "internal_minus2" ( - ));
     Named("*"), (make_internal_arith2 "internal_mult2"  ( * ));
     Named("/"), (make_internal_arith2 "internal_div2"   ( / )) ]
-

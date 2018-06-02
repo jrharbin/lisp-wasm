@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Experimental Lisp for Webassembly (REPL + editor test)</title>
+
+    <!-- Bootstrap required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+    <!-- CodeMirror editor -->
+    <script src="lib/codemirror.js"></script>
+    <link rel="stylesheet" href="lib/codemirror.css">
+    <script src="mode/javascript/javascript.js"></script>
+    
+    <!-- Jquery Terminal -->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/1.11.0/css/jquery.terminal.min.css" integrity="sha256-NPnczI0KjCueVIbIZBIjffajQholjsUnhVe4sQgL80U=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/1.11.0/js/jquery.terminal.min.js" integrity="sha256-Qm1Nw4js01hUsHFCa8xirKnSZeRXR8uNgbAKwjhn9mA=" crossorigin="anonymous"></script>
+
+  <!-- local Javascript code -->
+  <script src="./lispwasm.js"></script>
+
+  <!-- CodeMirror style, should probably go to a CSS file -->
+  <style>
+    .CodeMirror { height: 400px; border: 1px solid #ddd; }
+    .CodeMirror-scroll { max-height: 500px; }
+    .CodeMirror pre { padding-left: 7px; line-height: 1.25; }
+  </style>
+  </head>
+
+   
+  <body>
+    <!-- More Bootstrap loading -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    
+    <!-- Page content -->
+    
+    <!-- The title and navigation bar -->
+    <nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Lisp For Webassembly</a>
+    </nav>
+
+    <div class="container pt-5">
+      <div class="row">
+        <div class="col-8">
+          <!-- CodeMirror editor -->
+          <textarea id="sourcecode">
+	    (+ 1 1)
+	  </textarea>
+          <script>
+            var editor = CodeMirror.fromTextArea(document.getElementById("sourcecode"), {
+            lineNumbers: true,
+            matchBrackets: true
+            });
+          </script>
+
+          <!-- Run and Reset buttons (see also their activation below) -->
+          <div class="m-3">
+	    <button type="button" class="btn btn-primary" id="runButton">Interpret</button>
+	    <button type="button" class="btn btn-primary" id="compileButton">Compile</button>
+            <button type="button" class="btn btn-danger" id="resetButton">Reset</button>
+          </div>
+
+          <!-- The terminal window -->
+          <div id="terminal"></div>
+
+          <!-- Code to setup the terminal and the buttons -->
+          <script>
+          var terminal =
+          $('#terminal').terminal(function(command, term) {
+              if (command !== '') {
+                  env = repl.toplevel()(term.echo)(env)(command);
+              }
+          }, {
+              greetings: '',
+              name: 'repl_terminal',
+              height: 400,
+              width: "auto",
+              prompt: '# '
+          });
+
+         var env = repl.reset()(terminal.echo);
+
+         $('#runButton').click(function () {
+            env = repl.usefile()(terminal.echo)(env)(editor.getValue());
+          });
+
+	  $('#runButton').click(function () {
+            env = repl.usefile()(terminal.echo)(env)(editor.getValue());
+          });
+
+          $('#resetButton').click(function () {
+          terminal.clear();
+          env = repl.reset()(terminal.echo);
+         });
+         </script>
+        </div>
+        <div class="col">
+	  Experimental Lisp Interpreter
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
